@@ -23,7 +23,7 @@ public class DepartmentController {
     private DepartmentServiceImpl departmentService;
 
     @PostMapping(value = "/departments", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Department addDepartment(@RequestBody Department department) {
+    public DepartmentDTO addDepartment(@RequestBody DepartmentDTO department) {
         return departmentService.addDepartment(department);
     }
 
@@ -33,15 +33,12 @@ public class DepartmentController {
     }
 
     @GetMapping("/departments/{id}")
-    public DepartmentDTO getDepartment(@PathVariable UUID id) {
+    public DepartmentDTO getDepartment(@PathVariable String id) {
         return departmentService.getDepartment(id);
     }
 
-
-
     @PostMapping(value = "/departments/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Department updateDepartment(@PathVariable UUID id, @RequestBody DepartmentDTO department) {
-        departmentService.updateDepartment(department,id);
-        return null;
+    public DepartmentDTO updateDepartment(@PathVariable String id, @RequestBody DepartmentDTO department) {
+        return departmentService.updateDepartment(department,id);
     }
 }

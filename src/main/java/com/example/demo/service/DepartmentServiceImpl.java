@@ -7,9 +7,9 @@ import com.example.demo.entity.Department;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,27 +18,28 @@ public class DepartmentServiceImpl {
     private final DepartmentRepository repository;
 
     public List<DepartmentDTO> getAllDepartments() {
-        List<Department> departments = repository.findAll();
-        List<DepartmentDTO> employeeDTOS = new ArrayList<>();
-        for(Department department:departments){
-            employeeDTOS.add(DepartmentDTO.fromDepartment(department));
-        }
-        return employeeDTOS;
+        return repository.findAll().stream()
+                .map(DepartmentDTO::fromDepartment)
+                .collect(Collectors.toList());
     }
 
-    public DepartmentDTO getDepartment(UUID id) {
-        Department department = repository.findById(id.toString()).orElseThrow();
-        return new DepartmentDTO(department.getDepartmentName(),department.getLocation());
+    public DepartmentDTO getDepartment(String id) {
+        return DepartmentDTO.fromDepartment(repository.findById(id).orElseThrow());
     }
 
-    public Department addDepartment(Department department) {
-        return repository.save(department);
-    }
-
-    public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO,UUID id){
-        Department department = repository.findById(id.toString()).orElseThrow(()-> new EmployeeNotFoundException());
+    public DepartmentDTO addDepartment(DepartmentDTO departmentDTO) {
+        Department department = new Department();
+        department.setDepartmentId(departmentDTO.getDepartmentName().substring(0,5));
         department.setDepartmentName(departmentDTO.getDepartmentName());
         department.setLocation(departmentDTO.getLocation());
-        return  departmentDTO;
+        repository.save(department);
+        return departmentDTO;
+    }
+
+    public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO,String id){
+        Department department = repository.findById(id).orElseThrow(()-> new EmployeeNotFoundException());
+        department.setDepartmentName(departmentDTO.getDepartmentName());
+        department.setLocation(departmentDTO.getLocation());
+        return departmentDTO;
     }
 }

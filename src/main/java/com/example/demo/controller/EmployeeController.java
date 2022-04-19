@@ -36,19 +36,18 @@ public class EmployeeController {
 
     @PostMapping("/employees")
     public EmployeeDTO addNewEmployee(@RequestBody EmployeeDTO employee) {
-
         employeeService.saveEmployee(employee);
         return employee;
     }
 
     @PutMapping("/employees")
     public EmployeeDTO updateEmployee(@RequestBody EmployeeDTO employee) {
-        employeeService.saveEmployee(employee);
+        employeeService.updateEmployee(employee);
         return employee;
     }
 
     @DeleteMapping("/employees/{id}")
-    public void deleteEmployee(@PathVariable UUID id) {
-        employeeService.deleteEmployee(id);
+    public EmployeeDTO deleteEmployee(@PathVariable String email) {
+        return employeeService.deleteEmployee(email);
     }
 }

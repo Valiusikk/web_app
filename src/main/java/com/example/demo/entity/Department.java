@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 
 @Entity
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "department")
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames  = {"department_name","department_id"})},name = "department")
 public class Department {
     @Id
     @Column(name = "department_id")

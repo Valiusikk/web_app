@@ -26,7 +26,7 @@ import javax.persistence.Table;
 @Setter()
 @ToString
 @AllArgsConstructor
-@Table(name = "employee")
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames  = "phone_number")},name = "employee")
 public class Employee {
     @Id
     @Column(name = "employee_id")
@@ -47,7 +47,6 @@ public class Employee {
     @NotBlank
     @NotNull
     @NotEmpty
-
     @Column(name = "email")
     private String email;
 

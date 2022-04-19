@@ -11,13 +11,25 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeDTO {
+
     private String employeeName;
+
+    private String employeeSurname;
+
+    private String phoneNumber;
+
+    private float salary;
+
     private String email;
+
     private DepartmentDTO departmentDto;
 
     public static EmployeeDTO fromEmployee(Employee employee){
         return new EmployeeDTO(
                 employee.getName(),
+                employee.getSurname(),
+                employee.getPhoneNumber(),
+                employee.getSalary(),
                 employee.getEmail(),
                 DepartmentDTO.fromDepartment(employee.getDepartmentId())
                     );
