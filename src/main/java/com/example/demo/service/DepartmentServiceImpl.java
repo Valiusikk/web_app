@@ -18,9 +18,7 @@ public class DepartmentServiceImpl {
     private final DepartmentRepository repository;
 
     public List<DepartmentDTO> getAllDepartments() {
-        return repository.findAll().stream()
-                .map(DepartmentDTO::fromDepartment)
-                .collect(Collectors.toList());
+        return repository.findAll().stream().map(DepartmentDTO::fromDepartment).collect(Collectors.toList());
     }
 
     public DepartmentDTO getDepartment(String id) {
@@ -28,16 +26,16 @@ public class DepartmentServiceImpl {
     }
 
     public DepartmentDTO addDepartment(DepartmentDTO departmentDTO) {
-        Department department = new Department();
-        department.setDepartmentId(departmentDTO.getDepartmentName().substring(0,5));
+        final Department department = new Department();
+        department.setDepartmentId(departmentDTO.getDepartmentName().substring(0, 5));
         department.setDepartmentName(departmentDTO.getDepartmentName());
         department.setLocation(departmentDTO.getLocation());
         repository.save(department);
         return departmentDTO;
     }
 
-    public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO,String id){
-        Department department = repository.findById(id).orElseThrow(()-> new EmployeeNotFoundException());
+    public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO, String id) {
+        final Department department = repository.findById(id).orElseThrow(() -> new EmployeeNotFoundException());
         department.setDepartmentName(departmentDTO.getDepartmentName());
         department.setLocation(departmentDTO.getLocation());
         return departmentDTO;

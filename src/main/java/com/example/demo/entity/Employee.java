@@ -8,6 +8,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
@@ -23,10 +24,9 @@ import javax.persistence.Table;
 
 @Entity
 @Getter
-@Setter()
+@Setter
 @ToString
 @AllArgsConstructor
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames  = "phone_number")},name = "employee")
 public class Employee {
     @Id
     @Column(name = "employee_id")
@@ -47,18 +47,18 @@ public class Employee {
     @NotBlank
     @NotNull
     @NotEmpty
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
 
     @NonNull
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "department_id")
     private Department departmentId;
 
     @NotBlank
     @NotNull
     @NotEmpty
-    @Column(name = "phone_number")
+    @Column(name = "phone_number",unique = true)
     private String phoneNumber;
 
     @Min(1L)

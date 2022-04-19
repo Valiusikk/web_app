@@ -6,6 +6,7 @@ import com.example.demo.service.DepartmentServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ public class DepartmentController {
 
     private DepartmentServiceImpl departmentService;
 
-    @PostMapping(value = "/departments", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/departments")
     public DepartmentDTO addDepartment(@RequestBody DepartmentDTO department) {
         return departmentService.addDepartment(department);
     }
@@ -37,7 +38,7 @@ public class DepartmentController {
         return departmentService.getDepartment(id);
     }
 
-    @PostMapping(value = "/departments/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/departments/{id}")
     public DepartmentDTO updateDepartment(@PathVariable String id, @RequestBody DepartmentDTO department) {
         return departmentService.updateDepartment(department,id);
     }

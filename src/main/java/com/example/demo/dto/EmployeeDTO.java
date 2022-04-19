@@ -24,7 +24,7 @@ public class EmployeeDTO {
 
     private DepartmentDTO departmentDto;
 
-    public static EmployeeDTO fromEmployee(Employee employee){
+    public static EmployeeDTO fromEmployee(Employee employee) {
         return new EmployeeDTO(
                 employee.getName(),
                 employee.getSurname(),
@@ -32,6 +32,6 @@ public class EmployeeDTO {
                 employee.getSalary(),
                 employee.getEmail(),
                 DepartmentDTO.fromDepartment(employee.getDepartmentId())
-                    );
+        );
     }
 }

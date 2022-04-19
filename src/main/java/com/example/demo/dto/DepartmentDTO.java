@@ -14,7 +14,7 @@ public class DepartmentDTO {
 
     private String location;
 
-    public static DepartmentDTO fromDepartment(Department department){
+    public static DepartmentDTO fromDepartment(Department department) {
         return new DepartmentDTO(
                 department.getDepartmentName(),
                 department.getLocation()
