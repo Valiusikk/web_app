@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 
@@ -23,20 +24,20 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "department")
 public class Department {
     @Id
-    @Column(name = "department_id",unique = true)
+    @Column(name = "department_id")
     private String departmentId;
 
-    @NonNull
-    @Column(name = "department_name",unique = true)
+    @NotNull(message = "Each department must have valid name")
+    @Column(name = "department_name")
     private String departmentName;
 
     @Column(name = "location_name")
     private String location;
 
 
-    @OneToMany()
-    @JoinColumn(name = "department_id")
+    @OneToMany(mappedBy = "departmentId")
     Set<Employee> employees;
 }

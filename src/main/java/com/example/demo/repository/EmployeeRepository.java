@@ -5,8 +5,9 @@ import com.example.demo.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
-public interface EmployeeRepository extends JpaRepository<Employee, String> {
+public interface EmployeeRepository extends JpaRepository<Employee, UUID> {
     /**
      * Should return optional of employee I look for in repository
      * If there is no employee with such email, return empty optional

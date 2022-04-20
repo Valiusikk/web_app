@@ -21,52 +21,55 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
+@Table(name = "employee")
 public class Employee {
     @Id
     @Column(name = "employee_id")
-    private String id;
+    private UUID id;
 
-    @NotBlank
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Employee must have valid first name")
+    @NotNull(message = "Employee's first name must not be null")
+    @NotEmpty(message = "Employee's first name must not be empty string")
     @Column(name = "first_name")
     private String name;
 
-    @NotBlank
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Employee must have valid surname")
+    @NotNull(message = "Employee's surname must not be null")
+    @NotEmpty(message = "Employee's surname must not be empty string")
     @Column(name = "last_name")
     private String surname;
 
-    @NotBlank
-    @NotNull
-    @NotEmpty
-    @Column(name = "email",unique = true)
+    @Column(name = "email")
+    @Pattern(regexp = "^(.+)@(.+)$")
+    @NotBlank(message = "Employee email should contain valid email")
+    @NotNull(message = "Employee email should not be null")
+    @NotEmpty(message = "Employee email should not be empty string")
     private String email;
 
-    @NonNull
-    @ManyToOne()
+    @NotNull(message = "Employee should have department")
+    @ManyToOne(targetEntity = Department.class)
     @JoinColumn(name = "department_id")
     private Department departmentId;
 
-    @NotBlank
-    @NotNull
-    @NotEmpty
-    @Column(name = "phone_number",unique = true)
+    @NotBlank(message = "Each employee should have own unique phone number")
+    @NotNull(message = "Employee's phone number should be not null")
+    @NotEmpty(message = "Employee's phone number should be not an empty string")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Min(1L)
+    @Min(value = 1L,message = "Minimal salary of employee is 1 monetary unit")
     @Column(name = "salary")
     private float salary;
 
     public Employee() {
-        id = UUID.randomUUID().toString();
+        id = UUID.randomUUID();
     }
 
 }
