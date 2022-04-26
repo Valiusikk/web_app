@@ -6,14 +6,14 @@ import com.example.demo.exception.EntityAlreadyExistsException;
 import com.example.demo.exception.WebAppException;
 import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.entity.Employee;
-import com.example.demo.service.execution.AbstractValidator;
-import com.example.demo.service.execution.EmployeeValidator;
+import com.example.demo.service.execution.CreateEmployeeValidator;
+import com.example.demo.service.execution.UpdateEmployeeValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,11 +24,21 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
 
     public static final String EMPLOYEE_NAME = "Employee";
+
     private final EmployeeRepository repository;
 
     private final DepartmentServiceImpl departmentService;
 
-    private final AbstractValidator validator;
+    private UpdateEmployeeValidator updateValidator;
+
+    private CreateEmployeeValidator createValidator;
+
+    @PostConstruct
+    void init(){
+        updateValidator = new UpdateEmployeeValidator(repository);
+
+        createValidator = new CreateEmployeeValidator(repository);
+    }
 
     @Override
     @Transactional(readOnly = true)
@@ -56,7 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO) {
-        validator.validateIfExists(employeeDTO.getEmail());
+        createValidator.validate(employeeDTO.getEmail());
         if (checkForPhoneNumber(employeeDTO.getPhoneNumber())) {
             log.error("Employee already exist and can't be saved");
             throw new EntityAlreadyExistsException(EMPLOYEE_NAME, "phone number", employeeDTO.getPhoneNumber());
@@ -75,7 +85,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional(readOnly = true)
     public EmployeeDTO getEmployee(String email) {
-        validator.validateIfExists(email);
         Employee employee = repository.findByEmail(email).get();
         log.info("Getting employee with email " + email);
         return EmployeeDTO.fromEmployee(employee);
@@ -83,7 +92,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDTO deleteEmployee(String email) {
-        validator.validateIfExists(email);
+
         Employee employee = repository.findByEmail(email).get();
         repository.delete(employee);
         log.info("Employee with email " + email + " was deleted");
@@ -92,7 +101,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDTO updateEmployee(EmployeeDTO employeeDTO) {
-        validator.validateIfDoesntExists(employeeDTO.getEmail());
+        updateValidator.validate(employeeDTO.getEmail());
         final Employee employee = new Employee();
         final Department department = new Department();
         department.setDepartmentId(employeeDTO.getEmployeeName().substring(0, 5));

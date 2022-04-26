@@ -1,17 +1,13 @@
 package com.example.demo.entity;
 
-
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -21,7 +17,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Pattern;
 
 @Entity
 @Getter
@@ -46,10 +41,10 @@ public class Employee {
     @Column(name = "last_name")
     private String surname;
 
+    @Email
     @Column(name = "email")
-    @Pattern(regexp = "^(.+)@(.+)$")
-    @NotBlank(message = "Employee email should contain valid email")
     @NotNull(message = "Employee email should not be null")
+    @NotBlank(message = "Employee email should contain valid email")
     @NotEmpty(message = "Employee email should not be empty string")
     private String email;
 
@@ -58,14 +53,14 @@ public class Employee {
     @JoinColumn(name = "department_id")
     private Department departmentId;
 
-    @NotBlank(message = "Each employee should have own unique phone number")
     @NotNull(message = "Employee's phone number should be not null")
+    @NotBlank(message = "Each employee should have own unique phone number")
     @NotEmpty(message = "Employee's phone number should be not an empty string")
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Min(value = 1L,message = "Minimal salary of employee is 1 monetary unit")
     @Column(name = "salary")
+    @Min(value = 1L,message = "Minimal salary of employee is 1 monetary unit")
     private float salary;
 
     public Employee() {

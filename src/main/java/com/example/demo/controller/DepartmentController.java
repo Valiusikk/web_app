@@ -1,12 +1,10 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.DepartmentDTO;
-import com.example.demo.entity.Department;
 import com.example.demo.service.DepartmentService;
-import com.example.demo.service.DepartmentServiceImpl;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +24,7 @@ public class DepartmentController {
     private final DepartmentService departmentService;
 
     @PostMapping(value = "/departments")
-    public DepartmentDTO addDepartment(@RequestBody DepartmentDTO department) {
+    public DepartmentDTO saveDepartment(@Valid @RequestBody DepartmentDTO department) {
         return departmentService.saveDepartment(department);
     }
 

@@ -4,10 +4,8 @@ import com.example.demo.entity.Department;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 @Data
 @NoArgsConstructor
@@ -15,7 +13,6 @@ import javax.validation.constraints.Pattern;
 public class DepartmentDTO {
 
     @NotNull(message = "Department must have own name")
-    @Pattern(regexp = "[a-zA-Z]")
     private String departmentName;
 
     private String location;

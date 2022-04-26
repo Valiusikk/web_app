@@ -4,16 +4,12 @@ import com.example.demo.entity.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import javax.persistence.Column;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 @Data
 @NoArgsConstructor
@@ -30,18 +26,18 @@ public class EmployeeDTO {
     @NotEmpty(message = "Employee's surname must not be empty string")
     private String employeeSurname;
 
-    @NotBlank(message = "Each employee should have own unique phone number")
     @NotNull(message = "Employee's phone number should be not null")
+    @NotBlank(message = "Each employee should have own unique phone number")
     @NotEmpty(message = "Employee's phone number should be not an empty string")
     private String phoneNumber;
 
     @Min(value = 1L,message = "Minimal salary of employee is 1 monetary unit")
     private float salary;
 
-    @NotBlank(message = "Employee email should contain valid email")
+    @Email
     @NotNull(message = "Employee email should not be null")
+    @NotBlank(message = "Employee email should contain valid email")
     @NotEmpty(message = "Employee email should not be empty string")
-    @Pattern(regexp = "^(.+)@(.+)$")
     private String email;
 
     @NotNull(message = "Employee should have department")
