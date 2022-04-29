@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -24,22 +27,23 @@ public class DepartmentController {
     private final DepartmentService departmentService;
 
     @PostMapping(value = "/departments")
-    public DepartmentDTO saveDepartment(@Valid @RequestBody DepartmentDTO department) {
+    public @ResponseBody DepartmentDTO saveDepartment(@Valid @NotEmpty @NotNull @RequestBody DepartmentDTO department) {
         return departmentService.saveDepartment(department);
     }
 
     @GetMapping("/departments")
-    public List<DepartmentDTO> showAllDepartments() {
+    public @ResponseBody List<DepartmentDTO> showAllDepartments() {
         return departmentService.getAllDepartments();
     }
 
     @GetMapping("/departments/{name}")
-    public DepartmentDTO getDepartment(@PathVariable String name) {
+    public @ResponseBody DepartmentDTO getDepartment(@PathVariable String name) {
         return departmentService.getDepartment(name);
     }
 
     @PatchMapping(value = "/departments")
-    public DepartmentDTO updateDepartment(@Valid @RequestBody DepartmentDTO department) {
+    public @ResponseBody DepartmentDTO updateDepartment(@Valid @RequestBody DepartmentDTO department) {
         return departmentService.updateDepartment(department);
     }
+
 }
